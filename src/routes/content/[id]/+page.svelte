@@ -2,7 +2,7 @@
   import { page } from "$app/stores";
   import { onMount } from "svelte";
   import type { Content } from "../../../Models/Content";
-
+  import { marked } from 'marked'
   let contentId: string | undefined = undefined;
   let content: Content | undefined = undefined;
 
@@ -17,13 +17,13 @@
   });
 </script>
 
-{@debug content}
-
 {#if content !== undefined}
   <div class="content-container">
     <img src={content.bannerImage} alt="some alt" />
     <h1>{content.title}</h1>
-
+    <div class="rendered-markdown">
+      {@html marked.parse(content.markdownContent)}
+    </div>
   </div>
 {:else}
   <div>loading...</div>

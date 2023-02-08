@@ -18,7 +18,7 @@ const ContentCollection: Record<string, Content> = {
         author: 'Bill Gates',
         bannerImage: 'https://www.zenesys.com/Zenesys/media/Images/Blog/Microsoft-Azure-services.jpg?ext=.jpg',
         id: 'doc_id02',
-        markdownContent: 'Microsoft is a good company',
+        markdownContent: '# Welcome to my blog\nMicrosoft is a good company',
         tags: ['windows', 'azure'],
         title: 'Building web apps and deploying on azure',
         description: 'boring azure and .net core tutorial.'
