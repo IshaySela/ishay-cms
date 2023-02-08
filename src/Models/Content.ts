@@ -9,6 +9,7 @@ export interface Content {
     markdownContent: string;
     tags: string[];
     bannerImage: string; // Url to an image.
+    bannerImageAlt: string; // Alt text to the image
     id: string;
     description: string;
 }

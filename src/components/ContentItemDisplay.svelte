@@ -3,20 +3,24 @@
   Note: bannerImg should be santized before it is passed to the component.
 -->
 <script lang="ts">
+  import DOMPurify from "dompurify";
   import type { DisplayContent } from "../Models/Content";
   import TagsContainer from "./TagsContainer.svelte";
   export let displayContent: DisplayContent;
-
 </script>
 
 <div class="display-content-container">
-  <img class="banner-image" src={displayContent.bannerImage} alt="some-alt" />
+  <img
+    class="banner-image"
+    src={DOMPurify.sanitize(displayContent.bannerImage)}
+    alt={DOMPurify.sanitize(displayContent.bannerImageAlt)}
+  />
   <div class="display-content-text-info">
     <h1>{displayContent.title}</h1>
     <h2>{displayContent.author}</h2>
     <p>{displayContent.description}</p>
     <div class="display-tags">
-      <TagsContainer tags={displayContent.tags}/>
+      <TagsContainer tags={displayContent.tags} />
     </div>
   </div>
 </div>

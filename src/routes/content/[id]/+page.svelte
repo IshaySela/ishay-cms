@@ -30,7 +30,7 @@
 
 {#if content !== undefined}
   <div class="content-container">
-    <img src={content.bannerImage} alt="some alt" />
+    <img src={DOMPurify.sanitize(content.bannerImage)} alt={DOMPurify.sanitize(content.bannerImageAlt)} />
 
     <h1>{content.title}</h1>
     <h3>{content.author}</h3>

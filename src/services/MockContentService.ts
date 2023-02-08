@@ -8,6 +8,7 @@ const ContentCollection: Record<string, Content> = {
     'doc_id01': {
         author: 'Ishay Sela',
         bannerImage: 'https://i.ytimg.com/vi/34U8vOHEd0c/maxresdefault.jpg',
+        bannerImageAlt: 'Logo of sveltkit',
         id: 'doc_id01',
         markdownContent: 'my blog',
         tags: ['hello', 'world'],
@@ -17,6 +18,7 @@ const ContentCollection: Record<string, Content> = {
     "doc_id02": {
         author: 'Bill Gates',
         bannerImage: 'https://www.zenesys.com/Zenesys/media/Images/Blog/Microsoft-Azure-services.jpg?ext=.jpg',
+        bannerImageAlt: 'Azure logo',
         id: 'doc_id02',
         markdownContent: '# Welcome to my blog\nMicrosoft is a good company',
         tags: ['windows', 'azure'],
