@@ -1,12 +1,14 @@
 <script lang="ts">
-  import { filter, map, mergeAll } from "rxjs";
-  import { onMount } from "svelte";
+  import { filter, map, mergeAll, Subscription } from "rxjs";
+  import { onDestroy, onMount } from "svelte";
   import type { Content } from "../Models/Content";
   import type { IContentService } from "../services/IContentService";
   import { MockContentService } from "../services/MockContentService";
   import ContentItemDisplay from "../components/ContentItemDisplay.svelte";
+
   const contentService: MockContentService = new MockContentService();
   let blogs: Content[] = [];
+  let querySubscription: Subscription | null = null
 
   onMount(() => {
     // Convert the array of ids to array of observables.
@@ -15,7 +17,7 @@
       ReturnType<IContentService["getById"]>[]
     >((ids) => ids.map((id) => contentService.getById(id)));
 
-    contentService
+    querySubscription = contentService
       .query({ title: "*" })
       .pipe(
         mapToContentItemsSource,
@@ -33,6 +35,11 @@
   const onContentInteraction = (content: Content) => {
     window.location.href = `content/${content.id}`;
   };
+
+  onDestroy(() => {
+    if(querySubscription !== null)
+      querySubscription.unsubscribe();
+  })
 </script>
 
 <div class="page">
