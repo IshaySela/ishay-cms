@@ -1,20 +1,37 @@
-{@debug contentId}
 <script lang="ts">
   import { page } from "$app/stores";
-  import { onMount } from 'svelte'
-  let contentId: string | null = null;
+  import { onMount } from "svelte";
+  import type { Content } from "../../../Models/Content";
+
+  let contentId: string | undefined = undefined;
+  let content: Content | undefined = undefined;
 
   onMount(() => {
-    page.subscribe((d) => {
-      contentId = d.params.id
-    });
+    contentId = $page.params.id;
+    const contentJson = localStorage.getItem(contentId);
+    if(contentJson === null) {
+      return window.location.href = '/';
+    }
+
+    content = JSON.parse(contentJson) as Content;
   });
 </script>
 
-<p>
-  Here you view the content
-  <!--Display content id only after it was retrived from-->
-  {#if contentId !== null}
-    {contentId}
-  {/if}
-</p>
+{@debug content}
+
+{#if content !== undefined}
+  <div class="content-container">
+    <img src={content.bannerImage} alt="some alt" />
+    <h1>{content.title}</h1>
+
+  </div>
+{:else}
+  <div>loading...</div>
+{/if}
+
+<style>
+  .content-container {
+    display: flex;
+    flex-direction: column;
+  }
+</style>

@@ -5,7 +5,6 @@
   import type { IContentService } from "../services/IContentService";
   import { MockContentService } from "../services/MockContentService";
   import ContentItemDisplay from "../components/ContentItemDisplay.svelte";
-  import { contentStore } from "../stores/ContentStore";
 
   const contentService: MockContentService = new MockContentService();
   let blogs: Content[] = [];
@@ -34,7 +33,7 @@
 
   // A callback for when a content is clicked / pressed enter on.
   const onContentInteraction = (content: Content) => {
-    contentStore.set(content)
+    localStorage.setItem(content.id, JSON.stringify(content)) // store the data for the content page
     window.location.href = `content/${content.id}`;
   };
 

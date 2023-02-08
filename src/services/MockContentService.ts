@@ -1,4 +1,4 @@
-import { from, type Observable } from "rxjs";
+import { from, tap, type Observable } from "rxjs";
 import type { Content } from "../Models/Content";
 import type { QueryRequest } from "../Models/Requests";
 import type { IContentService } from "./IContentService";
@@ -33,6 +33,7 @@ export class MockContentService implements IContentService {
     }
     getById(id: string): Observable<Content | null> {
         const exists = Object.hasOwn(ContentCollection, id);
+
         return from([exists ? ContentCollection[id as keyof typeof ContentCollection] : null]) // this is terrible and fun code. remove in prod.
     }
 
