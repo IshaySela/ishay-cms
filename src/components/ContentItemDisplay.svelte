@@ -4,11 +4,9 @@
 -->
 <script lang="ts">
   import type { DisplayContent } from "../Models/Content";
+  import TagsContainer from "./TagsContainer.svelte";
   export let displayContent: DisplayContent;
 
-  // Returns the bullet entity code, only if it is not the last tag.
-  const getBullEntity = (index: number): string =>
-    index !== displayContent.tags.length - 1 ? "&bull;" : "";
 </script>
 
 <div class="display-content-container">
@@ -18,10 +16,7 @@
     <h2>{displayContent.author}</h2>
     <p>{displayContent.description}</p>
     <div class="display-tags">
-      {#each displayContent.tags as tag, index}
-        <p>{tag}</p>
-        <p>{@html getBullEntity(index)}</p>
-      {/each}
+      <TagsContainer tags={displayContent.tags}/>
     </div>
   </div>
 </div>
@@ -41,10 +36,5 @@
     display: flex;
     flex-direction: column;
     justify-content: start;
-  }
-
-  .display-content-text-info .display-tags {
-    display: flex;
-    gap: 2px;
   }
 </style>

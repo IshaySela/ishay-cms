@@ -78,7 +78,6 @@
 
   .items-list-container .items-list-item {
     width: 100%;
-
     border-style: outset;
   }
 

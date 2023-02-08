@@ -3,7 +3,8 @@
   import { onMount } from "svelte";
   import type { Content } from "../../../Models/Content";
   import { marked } from "marked";
-  import DOMPurify from 'dompurify'
+  import DOMPurify from "dompurify";
+  import TagsContainer from "../../../components/TagsContainer.svelte";
   let contentId: string | undefined = undefined;
   let content: Content | undefined = undefined;
 
@@ -19,20 +20,27 @@
 
   const getSanitizedHtml = () => {
     if (content?.markdownContent === undefined) {
-      console.error('Cant compile, content is undefined')
-      return '';
+      console.error("Cant compile, content is undefined");
+      return "";
     }
 
-    return DOMPurify.sanitize(marked.parse(content.markdownContent))
+    return DOMPurify.sanitize(marked.parse(content.markdownContent));
   };
 </script>
 
 {#if content !== undefined}
   <div class="content-container">
     <img src={content.bannerImage} alt="some alt" />
+
     <h1>{content.title}</h1>
+    <h3>{content.author}</h3>
+
     <div class="rendered-markdown">
       {@html getSanitizedHtml()}
+    </div>
+
+    <div class="content-tags-container">
+      <TagsContainer tags={content.tags} />
     </div>
   </div>
 {:else}
