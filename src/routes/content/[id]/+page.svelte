@@ -5,11 +5,13 @@
   import { marked } from "marked";
   import DOMPurify from "dompurify";
   import TagsContainer from "../../../components/TagsContainer.svelte";
+  
   let contentId: string | undefined = undefined;
   let content: Content | undefined = undefined;
 
   onMount(() => {
-    contentId = $page.params.id;
+    
+    const contentId = $page.params.id;
     const contentJson = localStorage.getItem(contentId);
     if (contentJson === null) {
       return (window.location.href = "/");
