@@ -67,13 +67,15 @@ app.get('/content/get/:id', (req, res) => __awaiter(void 0, void 0, void 0, func
  * @brief The query returns the first 50 elements in the database.
  */
 app.get('/content/query', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const getResult = () => client.db(config.UsedDb)
-        .collection('content')
-        .find()
-        .limit(50);
+    const getResult = () => {
+        const findOptions = { projection: { id: 1, _id: 0 } };
+        return client.db(config.UsedDb)
+            .collection('content')
+            .find({}, findOptions)
+            .limit(50);
+    };
     const result = yield getResult().toArray();
-    const safeData = result.map(santizieDbContentField_1.sanitizeDbContentField);
-    res.json(safeData);
+    res.json(result);
 }));
 app.listen(3000, () => {
     console.log('Server started o 3000');
