@@ -1,11 +1,60 @@
+import * as dotenv from 'dotenv'
+dotenv.config()
 import expres from 'express'
+import { MongoClient, ServerApiVersion } from 'mongodb'
+import getConfigFromEnv from './Configuration'
+import { DatabaseContent } from './Models/Content'
+import { sanitizeDbContentField } from './util/santizieDbContentField'
+
+const config = getConfigFromEnv()
 
 const app = expres()
 
-app.get('/', (req, res) => {
-    res.send('Hello, World!')
+const client = new MongoClient(config.ConnectionString, { serverApi: ServerApiVersion.v1 });
+
+
+/**
+ * @brief The endpoint gets a specific document by its id.
+ * @response 200 ok: The item was found, sending as json response
+ * @response 404 not found: The item could not be found.
+ */
+app.get('/content/get/:id', async (req, res) => {
+    const id = req.params.id
+    const getResult = () => client
+        .db(config.UsedDb)
+        .collection<DatabaseContent>('content')
+        .findOne<DatabaseContent>({ id: id })
+
+    let dbContent: DatabaseContent | null = null
+
+    dbContent = await getResult()
+
+    if (dbContent === null) {
+        res.status(404).json({ err: `Couldnt find document with id ${id}` })
+        return;
+    }
+
+    return res.json(sanitizeDbContentField(dbContent))
 })
 
-app.listen(3000, () => {
-    console.log('Server has started!')
+
+/**
+ * @brief The query returns the first 50 elements in the database.
+ */
+app.get('/content/query', async (req, res) => {
+    const getResult = () => client.db(config.UsedDb)
+        .collection<DatabaseContent>('content')
+        .find()
+        .limit(50)
+
+    const result = await getResult().toArray()
+
+    const safeData = result.map(sanitizeDbContentField)
+    res.json(safeData)
 })
+
+
+app.listen(3000, () => {
+    console.log('Server started o 3000')
+})
+console.log('Server done')
