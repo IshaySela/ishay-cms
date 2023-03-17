@@ -20,6 +20,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@macfja/svelte-persistent-store": "^2.2.1",
 		"@types/dompurify": "^2.4.0",
 		"@types/marked": "^4.0.8",
 		"dompurify": "^2.4.3",
