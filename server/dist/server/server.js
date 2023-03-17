@@ -44,6 +44,9 @@ const santizieDbContentField_1 = require("./util/santizieDbContentField");
 const config = (0, Configuration_1.default)();
 const app = (0, express_1.default)();
 const client = new mongodb_1.MongoClient(config.ConnectionString, { serverApi: mongodb_1.ServerApiVersion.v1 });
+const Collections = {
+    Content: 'content'
+};
 /**
  * @brief The endpoint gets a specific document by its id.
  * @response 200 ok: The item was found, sending as json response
@@ -53,7 +56,7 @@ app.get('/content/get/:id', (req, res) => __awaiter(void 0, void 0, void 0, func
     const id = req.params.id;
     const getResult = () => client
         .db(config.UsedDb)
-        .collection('content')
+        .collection(Collections.Content)
         .findOne({ id: id });
     let dbContent = null;
     dbContent = yield getResult();
@@ -70,7 +73,7 @@ app.get('/content/query', (req, res) => __awaiter(void 0, void 0, void 0, functi
     const getResult = () => {
         const findOptions = { projection: { id: 1, _id: 0 } };
         return client.db(config.UsedDb)
-            .collection('content')
+            .collection(Collections.Content)
             .find({}, findOptions)
             .limit(50);
     };
@@ -80,5 +83,4 @@ app.get('/content/query', (req, res) => __awaiter(void 0, void 0, void 0, functi
 app.listen(3000, () => {
     console.log('Server started o 3000');
 });
-console.log('Server done');
 //# sourceMappingURL=server.js.map

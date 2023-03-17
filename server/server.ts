@@ -12,6 +12,9 @@ const app = expres()
 
 const client = new MongoClient(config.ConnectionString, { serverApi: ServerApiVersion.v1 });
 
+const Collections = {
+    Content: 'content'
+} as const
 
 /**
  * @brief The endpoint gets a specific document by its id.
@@ -22,7 +25,7 @@ app.get('/content/get/:id', async (req, res) => {
     const id = req.params.id
     const getResult = () => client
         .db(config.UsedDb)
-        .collection<DatabaseContent>('content')
+        .collection<DatabaseContent>(Collections.Content)
         .findOne<DatabaseContent>({ id: id })
 
     let dbContent: DatabaseContent | null = null
@@ -45,7 +48,7 @@ app.get('/content/query', async (req, res) => {
     const getResult = () => {
         const findOptions: FindOptions<DatabaseContent> = { projection: { id: 1, _id: 0 } }
         return client.db(config.UsedDb)
-        .collection<DatabaseContent>('content')
+        .collection<DatabaseContent>(Collections.Content)
         .find<string[]>({}, findOptions)
         .limit(50)
     }
@@ -59,4 +62,3 @@ app.get('/content/query', async (req, res) => {
 app.listen(3000, () => {
     console.log('Server started o 3000')
 })
-console.log('Server done')
