@@ -1,4 +1,4 @@
-import type { AppNotification } from "../Models/Notification";
+import type { AppNotification, NotificationTypes } from "../Models/Notification";
 import { notifications } from "../stores";
 
 
@@ -13,14 +13,24 @@ const defaultNotificationSetting: AppNotification = {
 
 export class NotificationService {
     /**
-     * Add a tip notification to the notifications store.
+     * Add a notification to the notifications store.
      * @param text The text of the notification
+     * @param type The type of the notification.
+     * 
      * @returns The id of the notification.
      */
-    public static tip(text: string): string {
+    public static generic(text: string, type: NotificationTypes) {
         const id = randomString();
-        notifications.set({ ...defaultNotificationSetting, id: id, text: text, type: 'tip'})
-
+        notifications.set({ ...defaultNotificationSetting, id: id, text: text, type: type})
         return id;
+    }
+
+
+    public static tip(text: string) {
+        return NotificationService.generic(text, 'tip')
+    }
+
+    public static danger(text: string) {
+        return NotificationService.generic(text, 'danger')
     }
 }

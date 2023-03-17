@@ -5,15 +5,16 @@
   import { marked } from "marked";
   import DOMPurify from "dompurify";
   import TagsContainer from "../../../components/TagsContainer.svelte";
+  import { NotificationService } from "../../../services/NotificationService";
   
   let contentId: string | undefined = undefined;
   let content: Content | undefined = undefined;
 
   onMount(() => {
-    
     const contentId = $page.params.id;
     const contentJson = localStorage.getItem(contentId);
     if (contentJson === null) {
+      NotificationService.danger('Error on parsing json for <contentId>')
       return (window.location.href = "/");
     }
 

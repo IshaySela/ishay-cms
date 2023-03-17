@@ -34,7 +34,7 @@
 
 <div class="container">
   {#each [...messagesMap] as [id, data] (id)}
-    <div class="notification">
+    <div data-messageType={data.type} class="notification">
       {data.type}
       <br />
       {data.text}
@@ -54,10 +54,20 @@
     gap: 5px;
   }
 
-  .container .notification {
+  .notification {
     height: 50px;
     width: 100px;
     border-radius: 5px;
     background-color: aqua;
   }
+
+  .notification[data-messageType="tip"] {
+    background-color: rgba(0, 128, 0, 0.812);
+  }
+  
+  .notification[data-messageType="danger"] {
+    background-color: rgba(255, 0, 0, 0.758);
+  }
+  
+
 </style>
