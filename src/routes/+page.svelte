@@ -1,3 +1,6 @@
+<!--
+  This page retrives the first 50 blog posts and displayes them to the user.
+-->
 <script lang="ts">
   import { filter, map, mergeAll, Subscription } from "rxjs";
   import { onDestroy, onMount } from "svelte";
@@ -8,7 +11,7 @@
 
   const contentService: MockContentService = new MockContentService();
   let blogs: Content[] = [];
-  let querySubscription: Subscription | null = null
+  let querySubscription: Subscription | null = null;
 
   onMount(() => {
     // Convert the array of ids to array of observables.
@@ -33,14 +36,13 @@
 
   // A callback for when a content is clicked / pressed enter on.
   const onContentInteraction = (content: Content) => {
-    localStorage.setItem(content.id, JSON.stringify(content)) // store the data for the content page
+    localStorage.setItem(content.id, JSON.stringify(content)); // store the data for the content page
     window.location.href = `content/${content.id}`;
   };
 
   onDestroy(() => {
-    if(querySubscription !== null)
-      querySubscription.unsubscribe();
-  })
+    if (querySubscription !== null) querySubscription.unsubscribe();
+  });
 </script>
 
 <div class="page">
@@ -50,7 +52,7 @@
       <div
         class="items-list-item"
         on:click={(_) => onContentInteraction(blog)}
-        on:keypress={e => (e.key ? onContentInteraction(blog) : "")}
+        on:keypress={(e) => (e.key ? onContentInteraction(blog) : "")}
       >
         <ContentItemDisplay displayContent={blog} />
       </div>

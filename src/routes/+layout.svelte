@@ -6,7 +6,3 @@
 <slot />
 
 <NotificationManagerComponent />
-
-<button on:click={() => {
-  NotificationService.tip('Hello')
-}}>Click MEEEEEEEE</button>
