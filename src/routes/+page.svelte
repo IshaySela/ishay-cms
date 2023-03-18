@@ -8,8 +8,9 @@
   import type { IContentService } from "../services/IContentService";
   import { MockContentService } from "../services/MockContentService";
   import ContentItemDisplay from "../components/ContentItemDisplay.svelte";
+  import { ServerContentService } from "../services/ServerContentService";
 
-  const contentService: MockContentService = new MockContentService();
+  const contentService: ServerContentService = new ServerContentService();
   let blogs: Content[] = [];
   let querySubscription: Subscription | null = null;
 
@@ -36,7 +37,7 @@
 
   // A callback for when a content is clicked / pressed enter on.
   const onContentInteraction = (content: Content) => {
-    localStorage.setItem(content.id, JSON.stringify(content)); // store the data for the content page
+    // localStorage.setItem(content.id, JSON.stringify(content)); // store the data for the content page
     window.location.href = `content/${content.id}`;
   };
 

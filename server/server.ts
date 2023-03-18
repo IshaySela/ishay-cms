@@ -5,10 +5,11 @@ import { FindOptions, MongoClient, ServerApiVersion } from 'mongodb'
 import getConfigFromEnv from './Configuration'
 import { DatabaseContent } from './Models/Content'
 import { sanitizeDbContentField } from './util/santizieDbContentField'
-
+import cors from 'cors'
 const config = getConfigFromEnv()
 
 const app = expres()
+app.use(cors)
 
 const client = new MongoClient(config.ConnectionString, { serverApi: ServerApiVersion.v1 });
 

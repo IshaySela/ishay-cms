@@ -15,10 +15,3 @@
     <Text>{chip}</Text>
   </Chip>
 </Set>
-
-<style>
-  .tags-container {
-    display: flex;
-    gap: 2px;
-  }
-</style>
