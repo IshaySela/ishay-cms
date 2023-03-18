@@ -7,10 +7,10 @@ function sanitizeDbContentField(dbContent) {
         bannerImage: dbContent.bannerImage,
         bannerImageAlt: dbContent.bannerImageAlt,
         description: dbContent.description,
-        id: dbContent.id,
         markdownContent: dbContent.markdownContent,
         tags: dbContent.tags,
-        title: dbContent.title
+        title: dbContent.title,
+        id: dbContent._id
     };
 }
 exports.sanitizeDbContentField = sanitizeDbContentField;

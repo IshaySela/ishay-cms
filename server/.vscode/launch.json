@@ -4,10 +4,19 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+    {
+      "name": "JavaScript Launch Program",
+      "program": "${workspaceFolder}/dist/server/server.js",
+      "request": "launch",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "node"
+    },
       {
         "type": "node",
         "request": "launch",
-        "name": "Launch Program",
+        "name": "TypeScript Launch Program",
         "program": "${workspaceFolder}/server.ts",
         "preLaunchTask": "npm: build",
         "outFiles": ["${workspaceFolder}/dist/**/*.js"]

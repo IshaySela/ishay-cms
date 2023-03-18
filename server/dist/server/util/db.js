@@ -26,18 +26,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const dotenv = __importStar(require("dotenv"));
-dotenv.config();
-const express_1 = __importDefault(require("express"));
 const mongodb_1 = require("mongodb");
-const CONNECTION_STRING = process.env.CONNECTION_STRING;
-const app = (0, express_1.default)();
-const client = new mongodb_1.MongoClient(CONNECTION_STRING, { serverApi: mongodb_1.ServerApiVersion.v1 });
-app.get('/content/query/:id', (req, res) => {
-    const id = req.params.id;
-    console.log(req.params);
-    res.send(id);
-});
-app.listen(3000, () => {
-    console.log('Server has started!');
-});
+const dotenv = __importStar(require("dotenv"));
+const Configuration_1 = __importDefault(require("../Configuration"));
+dotenv.config();
+const config = (0, Configuration_1.default)();
+const client = new mongodb_1.MongoClient(config.ConnectionString, { serverApi: mongodb_1.ServerApiVersion.v1 });
+//# sourceMappingURL=db.js.map

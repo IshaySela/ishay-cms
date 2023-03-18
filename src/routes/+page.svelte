@@ -37,7 +37,7 @@
 
   // A callback for when a content is clicked / pressed enter on.
   const onContentInteraction = (content: Content) => {
-    // localStorage.setItem(content.id, JSON.stringify(content)); // store the data for the content page
+    localStorage.setItem(content.id, JSON.stringify(content)); // store the data for the content page
     window.location.href = `content/${content.id}`;
   };
 

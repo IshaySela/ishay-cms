@@ -1,21 +1,17 @@
 import * as dotenv from 'dotenv'
-dotenv.config()
+dotenv.config({ path: './.env' })
+
 import expres from 'express'
-import { FindOptions, MongoClient, ServerApiVersion } from 'mongodb'
 import getConfigFromEnv from './Configuration'
-import { DatabaseContent } from './Models/Content'
-import { sanitizeDbContentField } from './util/santizieDbContentField'
 import cors from 'cors'
+import mongoose from 'mongoose'
+import { DatabaseContent } from './Models/Content'
+import { ContentDbModel } from './Models/DbModels'
+import { sanitizeDbContentField } from './util/santizieDbContentField'
+// import mongoose from 'mongoose'
 const config = getConfigFromEnv()
-
 const app = expres()
-app.use(cors)
-
-const client = new MongoClient(config.ConnectionString, { serverApi: ServerApiVersion.v1 });
-
-const Collections = {
-    Content: 'content'
-} as const
+app.use(cors())
 
 /**
  * @brief The endpoint gets a specific document by its id.
@@ -24,42 +20,41 @@ const Collections = {
  */
 app.get('/content/get/:id', async (req, res) => {
     const id = req.params.id
-    const getResult = () => client
-        .db(config.UsedDb)
-        .collection<DatabaseContent>(Collections.Content)
-        .findOne<DatabaseContent>({ id: id })
+    const getResult = () => ContentDbModel
+        .findById(id)
+        .lean()
 
-    let dbContent: DatabaseContent | null = null
-
-    dbContent = await getResult()
+    let dbContent = await getResult()
 
     if (dbContent === null) {
-        res.status(404).json({ err: `Couldnt find document with id ${id}` })
-        return;
+        return res.status(404).json({ err: `Couldnt find document with id ${id}` })
     }
 
-    return res.json(sanitizeDbContentField(dbContent))
+    res.json(sanitizeDbContentField(dbContent))
 })
 
 
 /**
  * @brief The query returns the first 50 elements in the database.
+ * @response 200 OK - An array of ids.
  */
 app.get('/content/query', async (req, res) => {
-    const getResult = () => {
-        const findOptions: FindOptions<DatabaseContent> = { projection: { id: 1, _id: 0 } }
-        return client.db(config.UsedDb)
-        .collection<DatabaseContent>(Collections.Content)
-        .find<string[]>({}, findOptions)
-        .limit(50)
-    }
+    const getResult = () =>
+        ContentDbModel.find({}, '_id')
+            .limit(50)
+    
+    const result = await getResult()
+    const idsArray = result.map(doc => doc._id)
 
-    const result = await getResult().toArray()
-
-    res.json(result)
+    res.json(idsArray)
 })
+
+mongoose.connect(config.ConnectionString)
+    .then(console.log)
+    .catch(console.error)
+
 
 
 app.listen(3000, () => {
-    console.log('Server started o 3000')
+    console.log(`Server started on ${3000}`)
 })

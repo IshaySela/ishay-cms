@@ -36,17 +36,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv = __importStar(require("dotenv"));
-dotenv.config();
+dotenv.config({ path: './.env' });
 const express_1 = __importDefault(require("express"));
-const mongodb_1 = require("mongodb");
 const Configuration_1 = __importDefault(require("./Configuration"));
+const cors_1 = __importDefault(require("cors"));
+const mongoose_1 = __importDefault(require("mongoose"));
+const DbModels_1 = require("./Models/DbModels");
 const santizieDbContentField_1 = require("./util/santizieDbContentField");
+// import mongoose from 'mongoose'
 const config = (0, Configuration_1.default)();
 const app = (0, express_1.default)();
-const client = new mongodb_1.MongoClient(config.ConnectionString, { serverApi: mongodb_1.ServerApiVersion.v1 });
-const Collections = {
-    Content: 'content'
-};
+app.use((0, cors_1.default)());
 /**
  * @brief The endpoint gets a specific document by its id.
  * @response 200 ok: The item was found, sending as json response
@@ -54,33 +54,30 @@ const Collections = {
  */
 app.get('/content/get/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.params.id;
-    const getResult = () => client
-        .db(config.UsedDb)
-        .collection(Collections.Content)
-        .findOne({ id: id });
-    let dbContent = null;
-    dbContent = yield getResult();
+    const getResult = () => DbModels_1.ContentDbModel
+        .findById(id)
+        .lean();
+    let dbContent = yield getResult();
     if (dbContent === null) {
-        res.status(404).json({ err: `Couldnt find document with id ${id}` });
-        return;
+        return res.status(404).json({ err: `Couldnt find document with id ${id}` });
     }
-    return res.json((0, santizieDbContentField_1.sanitizeDbContentField)(dbContent));
+    res.json((0, santizieDbContentField_1.sanitizeDbContentField)(dbContent));
 }));
 /**
  * @brief The query returns the first 50 elements in the database.
+ * @response 200 OK - An array of ids.
  */
 app.get('/content/query', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const getResult = () => {
-        const findOptions = { projection: { id: 1, _id: 0 } };
-        return client.db(config.UsedDb)
-            .collection(Collections.Content)
-            .find({}, findOptions)
-            .limit(50);
-    };
-    const result = yield getResult().toArray();
-    res.json(result);
+    const getResult = () => DbModels_1.ContentDbModel.find({}, '_id')
+        .limit(50);
+    const result = yield getResult();
+    const idsArray = result.map(doc => doc._id);
+    res.json(idsArray);
 }));
+mongoose_1.default.connect(config.ConnectionString)
+    .then(console.log)
+    .catch(console.error);
 app.listen(3000, () => {
-    console.log('Server started o 3000');
+    console.log(`Server started on ${3000}`);
 });
 //# sourceMappingURL=server.js.map
