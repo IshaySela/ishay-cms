@@ -7,7 +7,6 @@
   import TagsContainer from "../../../components/TagsContainer.svelte";
   import { NotificationService } from "../../../services/NotificationService";
 
-  let contentId: string | undefined = undefined;
   let content: Content | undefined = undefined;
 
   onMount(() => {
@@ -39,14 +38,14 @@
 </script>
 
 {#if content !== undefined}
-  <div class="h-full w-full">
+  <div class="h-full w-full shadow-sm mb-4">
     <img
       class="h-full w-11/12 mx-auto"
       src={DOMPurify.sanitize(content.bannerImage)}
       alt={DOMPurify.sanitize(content.bannerImageAlt)}
     />
   </div>
-  <article class="mx-auto prose lg:prose-xl">
+  <article class="mx-auto prose lg:prose-xl bg-white shadow-sm">
     <div class="ml-5">
       <h1 class="self-center text-4xl text-center">{content.title}</h1>
       <h2 class="self-center text-lg text-grey-200">{content.author}</h2>
