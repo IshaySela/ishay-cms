@@ -47,8 +47,8 @@
   </div>
   <article class="mx-auto prose lg:prose-xl bg-white shadow-sm">
     <div class="ml-5">
-      <h1 class="self-center text-4xl text-center">{content.title}</h1>
-      <h2 class="self-center text-lg text-grey-200">{content.author}</h2>
+      <h1 class="self-center text-4xl text-center mt-10">{content.title}</h1>
+      <h4 class="self-center text-lg text-grey-200 text-stone-600">{content.author}</h4>
 
       <article class="prose">
         {@html getSanitizedHtml()}
