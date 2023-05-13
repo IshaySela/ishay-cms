@@ -6,7 +6,6 @@
   import { onDestroy, onMount } from "svelte";
   import type { Content } from "../Models/Content";
   import type { IContentService } from "../services/IContentService";
-  import { MockContentService } from "../services/MockContentService";
   import ContentItemDisplay from "../components/ContentItemDisplay.svelte";
   import { ServerContentService } from "../services/ServerContentService";
 

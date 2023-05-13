@@ -52,7 +52,7 @@ app.get('/content/query', async (req, res) => {
 mongoose.connect(config.ConnectionString)
     .then(console.log)
     .catch(console.error)
-
+ 
 
 
 app.listen(3000, () => {
