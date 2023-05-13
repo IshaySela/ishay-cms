@@ -14,6 +14,7 @@
     const contentId = $page.params.id;
     const contentJson = localStorage.getItem(contentId);
     if (contentJson === null) {
+      console.error({contentId, contentJson})
       NotificationService.danger('Error on parsing json for <contentId>')
       return (window.location.href = "/");
     }
@@ -32,7 +33,7 @@
 </script>
 
 {#if content !== undefined}
-  <div class="content-container">
+  <div>
     <img src={DOMPurify.sanitize(content.bannerImage)} alt={DOMPurify.sanitize(content.bannerImageAlt)} />
 
     <h1>{content.title}</h1>
@@ -50,9 +51,3 @@
   <div>loading...</div>
 {/if}
 
-<style>
-  .content-container {
-    display: flex;
-    flex-direction: column;
-  }
-</style>

@@ -39,6 +39,5 @@
   .display-content-container .display-content-text-info {
     display: flex;
     flex-direction: column;
-    justify-content: start;
   }
 </style>

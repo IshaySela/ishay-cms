@@ -49,11 +49,9 @@ app.get('/content/query', async (req, res) => {
     res.json(idsArray)
 })
 
-mongoose.connect(config.ConnectionString)
-    .then(console.log)
-    .catch(console.error)
- 
-
+mongoose.connect(config.ConnectionString).then(_ => {
+    console.log('Connected to mongodb')
+})
 
 app.listen(3000, () => {
     console.log(`Server started on ${3000}`)
