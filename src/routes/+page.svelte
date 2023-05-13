@@ -6,10 +6,10 @@
   import { onDestroy, onMount } from "svelte";
   import type { Content } from "../Models/Content";
   import type { IContentService } from "../services/IContentService";
-  import { MockContentService } from "../services/MockContentService";
-  import ContentItemDisplay from "../components/ContentItemDisplay.svelte";
+  import ContentItemPreview from "../components/ContentItemPreview.svelte";
+  import { ServerContentService } from "../services/ServerContentService";
 
-  const contentService: MockContentService = new MockContentService();
+  const contentService: ServerContentService = new ServerContentService();
   let blogs: Content[] = [];
   let querySubscription: Subscription | null = null;
 
@@ -45,45 +45,20 @@
   });
 </script>
 
-<div class="page">
+<!--The full page container-->
+<div class="w-full min-h-screen">
+  <!--Searchbar container-->
   <div class="searchbar">Searchbar goes here</div>
-  <div class="items-list-container">
+
+  <!--The container of all posts. Itereate over the blogs and create preview out of them-->
+  <div class="flex flex-col gap-2 pl-5 items-stretch">
     {#each blogs as blog (blog.id)}
       <div
-        class="items-list-item"
         on:click={(_) => onContentInteraction(blog)}
         on:keypress={(e) => (e.key ? onContentInteraction(blog) : "")}
       >
-        <ContentItemDisplay displayContent={blog} />
+        <ContentItemPreview displayContent={blog} />
       </div>
     {/each}
   </div>
 </div>
-
-<style>
-  .page {
-    display: grid;
-
-    grid-template-areas:
-      "search search search"
-      "items  items  items ";
-
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 100px 1fr;
-  }
-  .page .items-list-container {
-    grid-area: items;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .items-list-container .items-list-item {
-    width: 100%;
-    border-style: outset;
-  }
-
-  .page .searchbar {
-    grid-area: search;
-  }
-</style>
