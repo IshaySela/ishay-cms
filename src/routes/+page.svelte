@@ -46,7 +46,7 @@
 </script>
 
 <!--The full page container-->
-<div class="w-full min-h-screen bg-gradient-to-r from-green-300 to-purple-400">
+<div class="w-full min-h-screen">
   <!--Searchbar container-->
   <div class="searchbar">Searchbar goes here</div>
 
