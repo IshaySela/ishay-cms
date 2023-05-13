@@ -45,8 +45,12 @@
   });
 </script>
 
-<div class="page w-screen h-screen">
+<!--The full page container-->
+<div class="w-full min-h-screen bg-gradient-to-r from-green-300 to-purple-400">
+  <!--Searchbar container-->
   <div class="searchbar">Searchbar goes here</div>
+
+  <!--The container of all posts. Itereate over the blogs and create preview out of them-->
   <div class="flex flex-col gap-2 pl-5 items-stretch">
     {#each blogs as blog (blog.id)}
       <div
