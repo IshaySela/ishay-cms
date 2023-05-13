@@ -45,12 +45,11 @@
   });
 </script>
 
-<div class="page">
+<div class="page w-screen h-screen">
   <div class="searchbar">Searchbar goes here</div>
-  <div class="items-list-container">
+  <div class="flex flex-col gap-2 w-max pl-5">
     {#each blogs as blog (blog.id)}
       <div
-        class="items-list-item"
         on:click={(_) => onContentInteraction(blog)}
         on:keypress={(e) => (e.key ? onContentInteraction(blog) : "")}
       >
@@ -59,31 +58,3 @@
     {/each}
   </div>
 </div>
-
-<style>
-  .page {
-    display: grid;
-
-    grid-template-areas:
-      "search search search"
-      "items  items  items ";
-
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 100px 1fr;
-  }
-  .page .items-list-container {
-    grid-area: items;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .items-list-container .items-list-item {
-    width: 100%;
-    border-style: outset;
-  }
-
-  .page .searchbar {
-    grid-area: search;
-  }
-</style>

@@ -6,38 +6,25 @@
   import DOMPurify from "dompurify";
   import type { DisplayContent } from "../Models/Content";
   import TagsContainer from "./TagsContainer.svelte";
+
   export let displayContent: DisplayContent;
 </script>
 
-<div class="display-content-container">
-  <img
-    class="banner-image"
-    src={DOMPurify.sanitize(displayContent.bannerImage)}
-    alt={DOMPurify.sanitize(displayContent.bannerImageAlt)}
-  />
-  <div class="display-content-text-info">
-    <h1>{displayContent.title}</h1>
-    <h2>{displayContent.author}</h2>
-    <p>{displayContent.description}</p>
-    <div class="display-tags">
-      <TagsContainer tags={displayContent.tags} />
+<div class="prose prose-sm prose-stone bg-white shadow-md w-screen">
+  <div class="flex space-x-3">
+    <img
+      class="w-60 h-60 object-cover object-center"
+      src={DOMPurify.sanitize(displayContent.bannerImage)}
+      alt={DOMPurify.sanitize(displayContent.bannerImageAlt)}
+    />
+
+    <div class="flex flex-col space-y-0 pt-3">
+      <h4>{displayContent.title}</h4>
+      <p>{displayContent.description}</p>
     </div>
   </div>
+
+  <div>
+    <TagsContainer tags={displayContent.tags} />
+  </div>
 </div>
-
-<style>
-  .display-content-container {
-    padding: 5px;
-    display: flex;
-    gap: 5px;
-  }
-  .display-content-container .banner-image {
-    max-width: 300px;
-    height: fit-content;
-  }
-
-  .display-content-container .display-content-text-info {
-    display: flex;
-    flex-direction: column;
-  }
-</style>
