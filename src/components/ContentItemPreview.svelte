@@ -10,7 +10,7 @@
   export let displayContent: DisplayContent;
 </script>
 
-<div class="prose prose-sm prose-stone bg-white shadow-md w-screen p-1">
+<div class="hover:shadow-2xl transition-shadow duration-300 prose prose-sm prose-stone bg-white shadow-md w-screen p-1">
   <div class="flex space-x-3">
     <img
       class="w-60 h-60 object-cover object-center"
