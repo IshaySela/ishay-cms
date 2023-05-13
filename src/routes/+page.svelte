@@ -6,7 +6,7 @@
   import { onDestroy, onMount } from "svelte";
   import type { Content } from "../Models/Content";
   import type { IContentService } from "../services/IContentService";
-  import ContentItemDisplay from "../components/ContentItemDisplay.svelte";
+  import ContentItemPreview from "../components/ContentItemPreview.svelte";
   import { ServerContentService } from "../services/ServerContentService";
 
   const contentService: ServerContentService = new ServerContentService();
@@ -54,7 +54,7 @@
         on:click={(_) => onContentInteraction(blog)}
         on:keypress={(e) => (e.key ? onContentInteraction(blog) : "")}
       >
-        <ContentItemDisplay displayContent={blog} />
+        <ContentItemPreview displayContent={blog} />
       </div>
     {/each}
   </div>

@@ -1,5 +1,5 @@
 <!--
-  The component ContentItemDisplay is used to display a short summary of the content.
+  The component ContentItemPreview is used to display a short summary of the content.
   Note: bannerImg should be santized before it is passed to the component.
 -->
 <script lang="ts">
