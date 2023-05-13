@@ -47,7 +47,7 @@
 
 <div class="page w-screen h-screen">
   <div class="searchbar">Searchbar goes here</div>
-  <div class="flex flex-col gap-2 w-max pl-5">
+  <div class="flex flex-col gap-2 pl-5 items-stretch">
     {#each blogs as blog (blog.id)}
       <div
         on:click={(_) => onContentInteraction(blog)}

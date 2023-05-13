@@ -10,7 +10,7 @@
   export let displayContent: DisplayContent;
 </script>
 
-<div class="prose prose-sm prose-stone bg-white shadow-md w-screen">
+<div class="prose prose-sm prose-stone bg-white shadow-md w-screen p-1">
   <div class="flex space-x-3">
     <img
       class="w-60 h-60 object-cover object-center"
@@ -20,7 +20,8 @@
 
     <div class="flex flex-col space-y-0 pt-3">
       <h4>{displayContent.title}</h4>
-      <p>{displayContent.description}</p>
+      <p class="grow">{displayContent.description}</p>
+      <h5 class="text-gray-300">{displayContent.author}</h5>
     </div>
   </div>
 

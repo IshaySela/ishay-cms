@@ -39,14 +39,14 @@
 </script>
 
 {#if content !== undefined}
-  <article class="mx-auto prose lg:prose-xl">
-    <section class="w-full h-screen">
-      <img
+  <div class="h-full w-full">
+    <img
+      class="h-full w-11/12 mx-auto"
       src={DOMPurify.sanitize(content.bannerImage)}
       alt={DOMPurify.sanitize(content.bannerImageAlt)}
     />
-    </section>
-
+  </div>
+  <article class="mx-auto prose lg:prose-xl">
     <div class="ml-5">
       <h1 class="self-center text-4xl text-center">{content.title}</h1>
       <h2 class="self-center text-lg text-grey-200">{content.author}</h2>
