@@ -6,7 +6,7 @@
   import DOMPurify from "dompurify";
   import TagsContainer from "../../../components/TagsContainer.svelte";
   import { NotificationService } from "../../../services/NotificationService";
-  
+
   let contentId: string | undefined = undefined;
   let content: Content | undefined = undefined;
 
@@ -14,8 +14,8 @@
     const contentId = $page.params.id;
     const contentJson = localStorage.getItem(contentId);
     if (contentJson === null) {
-      console.error({contentId, contentJson})
-      NotificationService.danger('Error on parsing json for <contentId>')
+      console.error({ contentId, contentJson });
+      NotificationService.danger("Error on parsing json for <contentId>");
       return (window.location.href = "/");
     }
 
@@ -28,26 +28,38 @@
       return "";
     }
 
-    return DOMPurify.sanitize(marked.parse(content.markdownContent));
+    const renderedHtml = marked.parse(content.markdownContent, {
+      sanitizer(html) {
+        return DOMPurify.sanitize(html);
+      },
+    });
+
+    return renderedHtml;
   };
 </script>
 
 {#if content !== undefined}
-  <div>
-    <img src={DOMPurify.sanitize(content.bannerImage)} alt={DOMPurify.sanitize(content.bannerImageAlt)} />
+  <article class="mx-auto prose lg:prose-xl">
+    <section class="w-full h-screen">
+      <img
+      src={DOMPurify.sanitize(content.bannerImage)}
+      alt={DOMPurify.sanitize(content.bannerImageAlt)}
+    />
+    </section>
 
-    <h1>{content.title}</h1>
-    <h3>{content.author}</h3>
+    <div class="ml-5">
+      <h1 class="self-center text-4xl text-center">{content.title}</h1>
+      <h2 class="self-center text-lg text-grey-200">{content.author}</h2>
 
-    <div class="rendered-markdown">
-      {@html getSanitizedHtml()}
+      <article class="prose">
+        {@html getSanitizedHtml()}
+      </article>
+
+      <div>
+        <TagsContainer tags={content.tags} />
+      </div>
     </div>
-
-    <div class="content-tags-container">
-      <TagsContainer tags={content.tags} />
-    </div>
-  </div>
+  </article>
 {:else}
   <div>loading...</div>
 {/if}
-
