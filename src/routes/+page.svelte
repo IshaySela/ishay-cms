@@ -2,36 +2,22 @@
   This page retrives the first 50 blog posts and displayes them to the user.
 -->
 <script lang="ts">
-  import { filter, map, mergeAll, Subscription } from "rxjs";
+  import type { Subscription } from "rxjs";
   import { onDestroy, onMount } from "svelte";
   import type { Content } from "../Models/Content";
-  import type { IContentService } from "../services/IContentService";
   import ContentItemPreview from "../components/ContentItemPreview.svelte";
   import { ServerContentService } from "../services/ServerContentService";
+  import SearchbarComponenet from "../components/SearchbarComponenet.svelte";
 
   const contentService: ServerContentService = new ServerContentService();
   let blogs: Content[] = [];
   let querySubscription: Subscription | null = null;
 
   onMount(() => {
-    // Convert the array of ids to array of observables.
-    const mapToContentItemsSource = map<
-      string[],
-      ReturnType<IContentService["getById"]>[]
-    >((ids) => ids.map((id) => contentService.getById(id)));
-
-    querySubscription = contentService
-      .query({ title: "*" })
-      .pipe(
-        mapToContentItemsSource,
-        mergeAll(), // From Observable<Content>[] -> Observable<Content>
-        mergeAll(), // From Observable<Content> -> Content
-        filter((content) => content !== null)
-      )
-      .subscribe((content) => {
-        blogs.push(content!);
-        blogs = blogs; // Notify sveltkit reactive system.
-      });
+    contentService.queryContent({ title: "*" }).subscribe((content) => {
+      blogs.push(content!);
+      blogs = blogs; // Notify sveltkit reactive system.
+    });
   });
 
   // A callback for when a content is clicked / pressed enter on.
@@ -48,7 +34,9 @@
 <!--The full page container-->
 <div class="w-full min-h-screen">
   <!--Searchbar container-->
-  <div class="searchbar">Searchbar goes here</div>
+  <div class="searchbar">
+    <SearchbarComponenet on:queryResult={ev => blogs = ev.detail.results}/>
+  </div>
 
   <!--The container of all posts. Itereate over the blogs and create preview out of them-->
   <div class="flex flex-col gap-2 pl-5 items-stretch">

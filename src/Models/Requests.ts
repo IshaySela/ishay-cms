@@ -3,5 +3,8 @@
 
 export interface LoginRequest { }
 export interface QueryRequest {
-    title: string;
+    generalText?: string;
+    title?: string;
+    tags?: string[]
+    author?: string;
 }
